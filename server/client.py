@@ -1,22 +1,24 @@
 import asyncio
-
 import socketio
 
-sio_client = socketio.AsyncClient()
+sio = socketio.AsyncClient()
 
-
-@sio_client.event
+@sio.event
 async def connect():
-    print('I\'m connected')
+    print('connection established')
 
+@sio.event
+async def my_message(data):
+    print('message received with ', data)
+    await sio.emit('my response', {'response': 'my response'})
 
-@sio_client.event
+@sio.event
 async def disconnect():
-    print('I\'m disconnected')
-
+    print('disconnected from server')
 
 async def main():
-    await sio_client.connect(url='http://localhost:8000', socketio_path='sockets')
-    await sio_client.disconnect()
+    await sio.connect('http://127.0.0.1:8000/')
+    await sio.wait()
 
-asyncio.run(main())
+if __name__ == '__main__':
+    asyncio.run(main())

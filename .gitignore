@@ -1,2 +1,4 @@
 __pycache__/
 .env
+client/node_modules/
+server/venv/
