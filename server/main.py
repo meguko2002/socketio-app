@@ -1,8 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 import socketio
+from pathlib import Path
 
 app = FastAPI()
+
+dist_dir = Path(__file__).parent.parent/'client'/'dist'
+app.mount("/", StaticFiles(directory=dist_dir, html=True), name="static")
 
 app.add_middleware(
     CORSMiddleware,
@@ -13,7 +18,7 @@ app.add_middleware(
 )
 
 
-@app.get('/')
+@app.get('/api')
 async def home():
     print('get_request')
     return {'message': 'Hello👋 Developers💻'}
