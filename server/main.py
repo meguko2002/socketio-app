@@ -6,9 +6,6 @@ from pathlib import Path
 
 app = FastAPI()
 
-dist_dir = Path(__file__).parent.parent/'client'/'dist'
-app.mount("/", StaticFiles(directory=dist_dir, html=True), name="static")
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=['*'],
@@ -16,9 +13,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+dist_dir = Path(__file__).parent.parent/'client'/'dist'
+print(dist_dir)
+app.mount("/static", StaticFiles(directory=dist_dir, html=True), name="static")
 
 
-@app.get('/api')
+@app.get('/api/')
 async def home():
     print('get_request')
     return {'message': 'Hello👋 Developers💻'}
