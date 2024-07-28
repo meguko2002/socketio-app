@@ -16,7 +16,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 dist_dir = Path(__file__).parent.parent/'client'/'dist'
-# app.mount("/static", StaticFiles(directory=dist_dir, html=True), name="static")
+app.mount("/static", StaticFiles(directory=dist_dir, html=True), name="static")
 
 
 @app.get('/api/')
